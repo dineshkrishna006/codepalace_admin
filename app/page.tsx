@@ -1,6 +1,4 @@
-
 import Image from "next/image";
-import { signIn } from "@/auth";
 // import { useSession } from "next-auth/react";
 
 export default function Home() {
@@ -52,19 +50,6 @@ export default function Home() {
           >
             Read our docs
           </a>
-          <form
-            action={async () => {
-              "use server";
-              await signIn();
-            }}
-          >
-            <button
-              className="bg-white px-5 py-3 text-black rounded-full"
-              type="submit"
-            >
-              Sign in
-            </button>
-          </form>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
