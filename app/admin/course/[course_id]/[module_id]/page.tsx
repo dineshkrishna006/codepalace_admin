@@ -43,6 +43,7 @@ const formSchema = z.object({
   name: z.string().min(1),
   type: z.string(),
   priority: z.number(),
+  slug: z.string().min(1),
 });
 
 export default function Lessons() {
@@ -66,6 +67,7 @@ export default function Lessons() {
       name: "",
       type: "",
       priority: 0,
+      slug: "",
     },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -77,6 +79,7 @@ export default function Lessons() {
         values.name,
         values.type,
         values.priority,
+        values.slug,
       );
       if (created) {
         toast.success("Course Created successfully");
@@ -177,6 +180,23 @@ export default function Lessons() {
                         />
                       </FormControl>
                       <FormDescription>Lesson number</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Problem ID</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="enter the lesson slug"
+                          type="text"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

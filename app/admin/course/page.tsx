@@ -32,6 +32,7 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(1),
   image: z.string(),
+  slug: z.string(),
 });
 export default function Courseform() {
   const [courses, setCourses] = useState<
@@ -53,13 +54,14 @@ export default function Courseform() {
     defaultValues: {
       name: "",
       image: "",
+      slug: "",
     },
   });
   const router = useRouter();
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     try {
-      const res = await createCourse(values.name, values.image);
+      const res = await createCourse(values.name, values.image, values.slug);
       toast.success("Course Created successfully");
       router.push(`/admin/course/${res?.course_id}`);
     } catch (error) {
@@ -101,6 +103,23 @@ export default function Courseform() {
                         <FormControl>
                           <Input
                             placeholder="ex: Web Dev..."
+                            type="text"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="slug"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Problem ID</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="enter the course slug"
                             type="text"
                             {...field}
                           />

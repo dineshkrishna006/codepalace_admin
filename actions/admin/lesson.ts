@@ -22,6 +22,7 @@ export const createLesson = async (
   name: string,
   type: string,
   priority: number,
+  slug: string,
 ) => {
   try {
     const res = await prisma.lesson.create({
@@ -30,6 +31,7 @@ export const createLesson = async (
         name: name,
         type: type,
         priority: priority,
+        slug,
       },
     });
     return res;

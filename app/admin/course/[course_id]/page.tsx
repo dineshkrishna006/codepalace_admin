@@ -33,6 +33,7 @@ import { useParams } from "next/navigation";
 const formSchema = z.object({
   course_id: z.string(),
   name: z.string(),
+  slug: z.string(),
 });
 
 export default function CoursePage() {
@@ -45,6 +46,7 @@ export default function CoursePage() {
     defaultValues: {
       course_id: course_id!,
       name: "",
+      slug: "",
     },
   });
   const [modules, setModules] = useState<
@@ -67,7 +69,11 @@ export default function CoursePage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await createModule(values.course_id, values.name);
+      const res = await createModule(
+        values.course_id,
+        values.name,
+        values.slug,
+      );
       if (res) {
         toast.success("Moduele created Successfully");
         router.push(`/admin/course/${course_id}/${res.module_id}`);
@@ -127,6 +133,20 @@ export default function CoursePage() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="" type="text" {...field} />
+                          </FormControl>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="slug"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Slug</FormLabel>
                           <FormControl>
                             <Input placeholder="" type="text" {...field} />
                           </FormControl>

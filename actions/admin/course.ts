@@ -1,12 +1,17 @@
 "use server";
 import { prisma } from "@/prisma";
 
-export const createCourse = async (name: string, image: string) => {
+export const createCourse = async (
+  name: string,
+  image: string,
+  slug: string,
+) => {
   try {
     const res = await prisma.course.create({
       data: {
         name: name,
         image: image,
+        slug,
       },
     });
     return res;
