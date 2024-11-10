@@ -3,14 +3,18 @@
 import { prisma } from "@/prisma";
 
 interface ProblemSchema {
+  problem_id: number;
   title: string;
   statement: string;
   difficulty: "Easy" | "Medium" | "Hard";
   slug: string;
   points: number;
+  language?: string;
+  lesson_id?: string;
 }
 
 export const createQuestion = async ({
+  problem_id,
   title,
   statement,
   difficulty,
@@ -20,11 +24,42 @@ export const createQuestion = async ({
   try {
     const res = await prisma.problem.create({
       data: {
+        problem_id,
         title,
         statement,
         slug,
         difficulty,
         points,
+      },
+    });
+    return res.problem_id;
+  } catch (error) {
+    console.log("Error in /actions/admin/question > createQuestion", error);
+  }
+};
+
+export const createCourseQuestion = async ({
+  problem_id,
+  title,
+  statement,
+  difficulty,
+  slug,
+  points,
+  language,
+  lesson_id,
+}: ProblemSchema) => {
+  try {
+    const res = await prisma.problem.create({
+      data: {
+        problem_id,
+        title,
+        statement,
+        slug,
+        difficulty,
+        points,
+        inCourse: true,
+        language,
+        lesson_id,
       },
     });
     return res.problem_id;

@@ -2,6 +2,7 @@
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams, useRouter } from "next/navigation";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createQuestion } from "@/actions/admin/question";
+import { createCourseQuestion } from "@/actions/admin/question";
 
 const formSchema = z.object({
   problem_id: z.number(),
@@ -31,9 +32,16 @@ const formSchema = z.object({
   slug: z.string(),
   difficulty: z.enum(["Easy", "Medium", "Hard"]),
   points: z.number(),
+  language: z.string(),
 });
 
 export default function MyForm() {
+  const params = useParams<{
+    course_id: string;
+    module_id: string;
+    lesson_id: string;
+  }>();
+  const lesson_id = params.lesson_id;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,19 +51,23 @@ export default function MyForm() {
       difficulty: "Easy",
       slug: "",
       points: 100,
+      language: "any",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createQuestion({
+      await createCourseQuestion({
+        lesson_id,
         problem_id: values.problem_id,
         title: values.title,
         difficulty: values.difficulty,
         statement: values.statement,
         slug: values.slug,
         points: values.points,
+        language: values.language,
       });
+      toast.success("Video Uploaded successfully");
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
@@ -151,6 +163,35 @@ export default function MyForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="language"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Difficulty</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Language " />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="python">Python</SelectItem>
+                      <SelectItem value="javascript">Javascript</SelectItem>
+                      <SelectItem value="java">Java</SelectItem>
+                      <SelectItem value="c++">C++</SelectItem>
+                      <SelectItem value="go">Go</SelectItem>
+                      <SelectItem value="any">Any</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-6">
                 <FormField
@@ -168,7 +209,6 @@ export default function MyForm() {
                   )}
                 />
               </div>
-
               <div className="col-span-6">
                 <FormField
                   control={form.control}

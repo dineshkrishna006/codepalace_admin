@@ -1,7 +1,7 @@
 "use client";
 "use client";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Form,
   FormControl,

@@ -6,11 +6,11 @@ interface Answer {
   answer: string;
 }
 
-export const existingAnswer = async (problemid: number) => {
+export const existingAnswer = async (problem_id: number) => {
   try {
     const res = await prisma.answers.findUnique({
       where: {
-        problemid,
+        problem_id,
       },
     });
     if (res) {
