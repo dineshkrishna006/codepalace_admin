@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/prisma";
+
 export const getLessons = async (module_id: string) => {
   try {
     const res = await prisma.lesson.findMany({
@@ -32,7 +33,6 @@ export const createLesson = async (
         priority: priority,
       },
     });
-    // console.log(res);
     return res;
   } catch (error) {
     console.log(
