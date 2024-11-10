@@ -1,7 +1,5 @@
 "use server";
 import { prisma } from "@/prisma";
-<<<<<<< Updated upstream
-
 export const getLessons = async (module_id: string) => {
   try {
     const res = await prisma.lesson.findMany({
@@ -21,9 +19,6 @@ export const getLessons = async (module_id: string) => {
 
 export const createLesson = async (
   module_id: string,
-=======
-export const createLesson = async (
->>>>>>> Stashed changes
   name: string,
   type: string,
   priority: number,
@@ -31,16 +26,12 @@ export const createLesson = async (
   try {
     const res = await prisma.lesson.create({
       data: {
-<<<<<<< Updated upstream
         module_id: module_id,
-=======
->>>>>>> Stashed changes
         name: name,
         type: type,
         priority: priority,
       },
     });
-<<<<<<< Updated upstream
     return res;
   } catch (error) {
     console.log(
@@ -81,9 +72,5 @@ export const createDocument = async (lesson_id: string, value: string) => {
       "Error in inserting the document value to the lesson actions>admin>lesson.ts>createDocument",
       error,
     );
-=======
-  } catch (error) {
-    console.log("Error in actions>admin>lesson.ts>createLesson", error);
->>>>>>> Stashed changes
   }
 };
