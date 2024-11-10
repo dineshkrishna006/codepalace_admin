@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -13,19 +13,21 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Input } from "@/components/ui/input";
+
 import { createVideo } from "@/actions/admin/lesson";
 const formSchema = z.object({
   video: z.string(),
 });
 export default function Videoform() {
-  const pathname = usePathname();
+  const params = useParams<{
+    course_id: string;
+    module_id: string;
+    lesson_id: string;
+  }>();
   const router = useRouter();
-  const path_ = pathname.split("/");
-  path_.pop();
-  const lesson_id = path_.pop() || "";
-  const module_id = path_.pop() || "";
-  const course_id = path_.pop() || "";
+  const lesson_id = params.lesson_id;
+  const module_id = params.module_id;
+  const course_id = params.course_id;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

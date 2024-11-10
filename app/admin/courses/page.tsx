@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { createCourse } from "@/actions/admin/course";
-import { getCourses } from "@/actions/admin/courses";
+import { getCourses } from "@/actions/admin/course";
 
 import { useRouter } from "next/navigation";
 

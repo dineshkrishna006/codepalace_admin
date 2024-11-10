@@ -19,13 +19,15 @@ const formSchema = z.object({
   value: z.string().min(1),
 });
 export default function Documentform() {
-  const pathname = usePathname();
+  const params = useParams<{
+    course_id: string;
+    module_id: string;
+    lesson_id: string;
+  }>();
   const router = useRouter();
-  const path_ = pathname.split("/");
-  path_.pop();
-  const lesson_id = path_.pop() || "";
-  const module_id = path_.pop() || "";
-  const course_id = path_.pop() || "";
+  const lesson_id = params.lesson_id;
+  const module_id = params.module_id;
+  const course_id = params.course_id;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { createLesson, getLessons } from "@/actions/admin/lesson";
 import Link from "next/link";
 
@@ -46,10 +46,9 @@ const formSchema = z.object({
 });
 
 export default function Lessons() {
-  const pathname = usePathname();
-  const path_ = pathname.split("/");
-  const module_id = path_.pop() || "";
-  const course_id = path_.pop();
+  const params = useParams<{ course_id: string; module_id: string }>();
+  const module_id = params.module_id;
+  const course_id = params.course_id;
   const [lessons, setLessons] = useState<{ name: string; lesson_id: string }[]>(
     [],
   );
@@ -60,7 +59,7 @@ export default function Lessons() {
       if (data) setLessons(data);
     };
     fetchLessons();
-  }, []);
+  }, [module_id]);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

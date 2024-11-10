@@ -1,6 +1,5 @@
 "use server";
 import { prisma } from "@/prisma";
-
 export const getLessons = async (module_id: string) => {
   try {
     const res = await prisma.lesson.findMany({

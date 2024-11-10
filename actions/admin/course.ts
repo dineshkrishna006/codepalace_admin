@@ -3,15 +3,26 @@ import { prisma } from "@/prisma";
 
 export const createCourse = async (name: string, image: string) => {
   try {
-    await prisma.course.create({
+    const res = await prisma.course.create({
       data: {
         name: name,
         image: image,
       },
     });
-    return { success: true, res: 200 };
+    return res;
   } catch (error) {
     console.log("Error in actions>admin>course.ts>createCourse", error);
+  }
+};
+
+export const getCourses = async () => {
+  try {
+    const courses = await prisma.course.findMany({});
+    console.log("Courses", courses);
+    return courses;
+  } catch (error) {
+    console.log("Error in actions/admin/courses.ts > getCourses", error);
+    return [];
   }
 };
 
