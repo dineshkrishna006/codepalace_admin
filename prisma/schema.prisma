@@ -25,6 +25,7 @@ model User {
   leaderboard      Leaderboard?
   sessions         Session[]
   submissions      Submission[]
+  courses          Enrolled[]
 }
 
 model Account {
@@ -204,11 +205,12 @@ model JCollectionProblem {
 }
 
 model Course {
-  course_id String   @id @default(cuid())
-  slug      String   @unique
+  course_id String     @id @default(cuid())
+  slug      String     @unique
   name      String
   image     String?
   modules   Module[]
+  users     Enrolled[]
 }
 
 model Module {
@@ -270,6 +272,9 @@ model Document {
 model Enrolled {
   course_id String
   user_id   String
+
+  course Course @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+  user   User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@id([course_id, user_id])
 }
