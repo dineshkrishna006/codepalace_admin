@@ -28,7 +28,6 @@ export const createLesson = async (
     const res = await prisma.lesson.create({
       data: {
         module_id: module_id,
-
         name: name,
         type: type,
         priority: priority,
